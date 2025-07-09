@@ -118,6 +118,8 @@
       </div>
     </div>
   </div>
+  <!-- Notification area for delete confirmation -->
+  <div id="deleteMsg" class="fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded shadow-lg z-50 hidden"></div>
   <script>
     // API base URL
     const API_BASE = 'http://localhost:8080/tickets';
@@ -332,6 +334,7 @@
         const res = await fetch(`${API_BASE}/${deleteId}`, { method: 'DELETE' });
         if (!res.ok) throw new Error('Failed to delete reservation');
         fetchReservations();
+        showDeleteMsg('Reservation deleted!');
       } catch (err) {
         alert(err.message);
       } finally {
@@ -339,6 +342,16 @@
         hideDeleteModal();
       }
     };
+
+    // Show delete confirmation message
+    function showDeleteMsg(msg) {
+      const el = document.getElementById('deleteMsg');
+      el.textContent = msg;
+      el.classList.remove('hidden');
+      setTimeout(() => {
+        el.classList.add('hidden');
+      }, 2500);
+    }
 
     // Delete reservation (open modal)
     async function deleteReservation(id) {
