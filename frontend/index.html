@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flight Reservation Management</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#2563eb',
+            secondary: '#1e293b',
+            accent: '#f59e42',
+          },
+        },
+      },
+    }
+  </script>
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen">
+  <div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-8 text-center text-primary">Flight Reservation Management</h1>
+    <div class="flex flex-col md:flex-row gap-8">
+      <!-- Create Reservation Form -->
+      <div class="md:w-1/2 bg-gray-800 rounded-lg p-6 shadow-lg">
+        <h2 class="text-xl font-semibold mb-4">Create Reservation</h2>
+        <form id="createForm" class="space-y-4">
+          <div class="flex gap-4">
+            <input type="text" id="companyName" name="companyName" placeholder="Company Name" required class="w-1/2 p-2 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary">
+            <input type="text" id="passengerName" name="passengerName" placeholder="Passenger Name" required class="w-1/2 p-2 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary">
+          </div>
+          <div class="flex gap-4">
+            <input type="text" id="flightNumber" name="flightNumber" placeholder="Flight Number" required class="w-1/2 p-2 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary">
+            <input type="number" id="price" name="price" placeholder="Price" min="0" step="0.01" required class="w-1/2 p-2 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary">
+          </div>
+          <div class="flex gap-4">
+            <input type="text" id="departureAddress" name="departureAddress" placeholder="Departure Address" required class="w-1/2 p-2 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary">
+            <input type="text" id="destinationAddress" name="destinationAddress" placeholder="Destination Address" required class="w-1/2 p-2 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary">
+          </div>
+          <div class="flex gap-4">
+            <input type="datetime-local" id="kickoffTime" name="kickoffTime" required class="w-1/2 p-2 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary">
+            <select id="status" name="status" required class="w-1/2 p-2 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary">
+              <option value="" disabled selected>Status</option>
+              <option value="CONFIRMED">CONFIRMED</option>
+              <option value="PENDING">PENDING</option>
+              <option value="CANCELLED">CANCELLED</option>
+            </select>
+          </div>
+          <button type="submit" class="w-full py-2 px-4 bg-primary text-white rounded hover:bg-blue-700 transition">Create Reservation</button>
+          <div id="createMsg" class="text-center mt-2"></div>
+        </form>
+      </div>
+      <!-- Search Reservations Form -->
+      <div class="md:w-1/2 bg-gray-800 rounded-lg p-6 shadow-lg">
+        <h2 class="text-xl font-semibold mb-4">Search Reservations</h2>
+        <form id="searchForm" class="space-y-4">
+          <input type="text" id="searchDeparture" placeholder="Departure Address" class="w-full p-2 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary">
+          <input type="text" id="searchDestination" placeholder="Destination Address" class="w-full p-2 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary">
+          <input type="text" id="searchFlightNumber" placeholder="Flight Number" class="w-full p-2 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary">
+          <select id="searchStatus" class="w-full p-2 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary">
+            <option value="">Status (Any)</option>
+            <option value="CONFIRMED">CONFIRMED</option>
+            <option value="PENDING">PENDING</option>
+            <option value="CANCELLED">CANCELLED</option>
+          </select>
+          <input type="datetime-local" id="searchKickoffTime" placeholder="Kickoff Time" class="w-full p-2 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary">
+          <div class="flex gap-4">
+            <button type="submit" class="flex-1 py-2 px-4 bg-accent text-white rounded hover:bg-orange-600 transition">Search</button>
+            <button type="button" id="clearSearch" class="flex-1 py-2 px-4 bg-gray-600 text-white rounded hover:bg-gray-700 transition">Clear Search</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- Reservations Table -->
+    <div class="mt-10 bg-gray-800 rounded-lg p-6 shadow-lg overflow-x-auto">
+      <h2 class="text-xl font-semibold mb-4">Reservations</h2>
+      <div id="loading" class="text-center text-accent mb-2 hidden">Loading...</div>
+      <table class="min-w-full table-auto text-sm">
+        <thead>
+          <tr class="bg-gray-700">
+            <th class="px-2 py-2">ID</th>
+            <th class="px-2 py-2">Company</th>
+            <th class="px-2 py-2">Passenger</th>
+            <th class="px-2 py-2">Flight #</th>
+            <th class="px-2 py-2">Departure</th>
+            <th class="px-2 py-2">Destination</th>
+            <th class="px-2 py-2">Kickoff</th>
+            <th class="px-2 py-2">Price</th>
+            <th class="px-2 py-2">Status</th>
+          </tr>
+        </thead>
+        <tbody id="reservationsTable" class="bg-gray-900">
+          <!-- Reservations will be inserted here -->
+        </tbody>
+      </table>
+      <div id="noResults" class="text-center text-gray-400 mt-4 hidden">No reservations found.</div>
+    </div>
+  </div>
+  <script>
+    // API base URL
+    const API_BASE = 'http://localhost:8080/tickets';
+
+    // Utility: Format date/time for display
+    function formatDateTime(dt) {
+      if (!dt) return '';
+      return dt.replace('T', ' ').split('.')[0];
+    }
+
+    // Show/hide loading indicator
+    function setLoading(show) {
+      document.getElementById('loading').classList.toggle('hidden', !show);
+    }
+
+    // Show message
+    function showMessage(el, msg, success = true) {
+      el.textContent = msg;
+      el.className = success ? 'text-green-400' : 'text-red-400';
+      setTimeout(() => { el.textContent = ''; }, 3000);
+    }
+
+    // Fetch and display all reservations
+    async function fetchReservations() {
+      setLoading(true);
+      try {
+        const res = await fetch(API_BASE);
+        const data = await res.json();
+        renderTable(data);
+      } catch (e) {
+        renderTable([]);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    // Render reservations table
+    function renderTable(data) {
+      const tbody = document.getElementById('reservationsTable');
+      const noResults = document.getElementById('noResults');
+      tbody.innerHTML = '';
+      if (!data || data.length === 0) {
+        noResults.classList.remove('hidden');
+        return;
+      }
+      noResults.classList.add('hidden');
+      data.forEach(r => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="px-2 py-1">${r.id ?? ''}</td>
+          <td class="px-2 py-1">${r.companyName ?? ''}</td>
+          <td class="px-2 py-1">${r.passengerName ?? ''}</td>
+          <td class="px-2 py-1">${r.flightNumber ?? ''}</td>
+          <td class="px-2 py-1">${r.departureAddress ?? ''}</td>
+          <td class="px-2 py-1">${r.destinationAddress ?? ''}</td>
+          <td class="px-2 py-1">${formatDateTime(r.kickoffTime)}</td>
+          <td class="px-2 py-1">${r.price ?? ''}</td>
+          <td class="px-2 py-1">${r.status ?? ''}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Handle create reservation form
+    document.getElementById('createForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const msg = document.getElementById('createMsg');
+      const form = e.target;
+      const data = {
+        companyName: form.companyName.value,
+        passengerName: form.passengerName.value,
+        flightNumber: form.flightNumber.value,
+        departureAddress: form.departureAddress.value,
+        destinationAddress: form.destinationAddress.value,
+        kickoffTime: form.kickoffTime.value,
+        price: parseFloat(form.price.value),
+        status: form.status.value
+      };
+      try {
+        const res = await fetch(API_BASE, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        if (!res.ok) throw new Error('Failed to create reservation');
+        showMessage(msg, 'Reservation created!', true);
+        form.reset();
+        fetchReservations();
+      } catch (err) {
+        showMessage(msg, err.message, false);
+      }
+    });
+
+    // Handle search form
+    document.getElementById('searchForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      setLoading(true);
+      const params = [];
+      const dep = document.getElementById('searchDeparture').value;
+      const dest = document.getElementById('searchDestination').value;
+      const flightNum = document.getElementById('searchFlightNumber').value;
+      const status = document.getElementById('searchStatus').value;
+      const kickoff = document.getElementById('searchKickoffTime').value;
+      if (dep) params.push(`departure=${encodeURIComponent(dep)}`);
+      if (dest) params.push(`destination=${encodeURIComponent(dest)}`);
+      if (flightNum) params.push(`flightNumber=${encodeURIComponent(flightNum)}`);
+      if (status) params.push(`status=${encodeURIComponent(status)}`);
+      if (kickoff) params.push(`kickoffTime=${encodeURIComponent(kickoff)}`);
+      let url = API_BASE + '/search';
+      if (params.length > 0) url += '?' + params.join('&');
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        renderTable(data);
+      } catch (e) {
+        renderTable([]);
+      } finally {
+        setLoading(false);
+      }
+    });
+
+    // Handle clear search
+    document.getElementById('clearSearch').addEventListener('click', e => {
+      document.getElementById('searchForm').reset();
+      fetchReservations();
+    });
+
+    // Initial fetch
+    fetchReservations();
+  </script>
+</body>
+</html> 
