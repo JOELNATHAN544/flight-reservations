@@ -28,7 +28,9 @@ public class FlightTicketController {
     public List<FlightTicket> searchTickets(
             @RequestParam(required = false) String departure,
             @RequestParam(required = false) String destination,
-            @RequestParam(required = false) String kickoffTime
+            @RequestParam(required = false) String kickoffTime,
+            @RequestParam(required = false) String flightNumber,
+            @RequestParam(required = false) String status  
     ) {
         if (departure != null) {
             return service.searchByDeparture(departure);
@@ -36,6 +38,10 @@ public class FlightTicketController {
             return service.searchByDestination(destination);
         } else if (kickoffTime != null) {
             return service.searchByKickoffTime(LocalDateTime.parse(kickoffTime));
+        } else if (flightNumber != null) {
+            return service.searchByFlightNumber(flightNumber);
+        } else if (status != null) {
+            return service.searchByStatus(FlightTicket.Status.valueOf(status));
         } else {
             return service.getAllTickets();
         }
