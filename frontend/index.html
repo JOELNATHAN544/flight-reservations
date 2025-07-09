@@ -82,7 +82,7 @@
       <table class="min-w-full table-auto text-sm">
         <thead>
           <tr class="bg-gray-700">
-            <th class="px-2 py-2">ID</th>
+            <th class="px-2 py-2">#</th>
             <th class="px-2 py-2">Company</th>
             <th class="px-2 py-2">Passenger</th>
             <th class="px-2 py-2">Flight #</th>
@@ -91,6 +91,7 @@
             <th class="px-2 py-2">Kickoff</th>
             <th class="px-2 py-2">Price</th>
             <th class="px-2 py-2">Status</th>
+            <th class="px-2 py-2"></th>
           </tr>
         </thead>
         <tbody id="reservationsTable" class="bg-gray-900">
@@ -157,10 +158,10 @@
         return;
       }
       noResults.classList.add('hidden');
-      data.forEach(r => {
+      data.forEach((r, i) => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-          <td class="px-2 py-1">${r.id ?? ''}</td>
+          <td class="px-2 py-1">${i + 1}</td>
           <td class="px-2 py-1">${r.companyName ?? ''}</td>
           <td class="px-2 py-1">${r.passengerName ?? ''}</td>
           <td class="px-2 py-1">${r.flightNumber ?? ''}</td>
