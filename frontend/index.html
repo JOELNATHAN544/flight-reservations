@@ -120,6 +120,14 @@
   </div>
   <!-- Notification area for delete confirmation -->
   <div id="deleteMsg" class="fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded shadow-lg z-50 hidden"></div>
+  <!-- Delete Confirmation Alert Modal -->
+  <div id="deleteAlertModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 hidden">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 w-full max-w-sm text-center border border-gray-200 dark:border-gray-700">
+      <h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Reservation Deleted</h3>
+      <p class="mb-6 text-gray-800 dark:text-gray-200">The reservation was successfully deleted.</p>
+      <button id="deleteAlertOkBtn" class="px-6 py-2 rounded bg-green-600 text-white hover:bg-green-700 transition">OK</button>
+    </div>
+  </div>
   <script>
     // API base URL
     const API_BASE = 'http://localhost:8080/tickets';
@@ -334,7 +342,7 @@
         const res = await fetch(`${API_BASE}/${deleteId}`, { method: 'DELETE' });
         if (!res.ok) throw new Error('Failed to delete reservation');
         fetchReservations();
-        showDeleteMsg('Reservation deleted!');
+        showDeleteAlertModal();
       } catch (err) {
         alert(err.message);
       } finally {
@@ -343,20 +351,14 @@
       }
     };
 
-    // Show delete confirmation message
-    function showDeleteMsg(msg) {
-      const el = document.getElementById('deleteMsg');
-      el.textContent = msg;
-      el.classList.remove('hidden');
-      setTimeout(() => {
-        el.classList.add('hidden');
-      }, 2500);
+    // Show delete alert modal
+    function showDeleteAlertModal() {
+      document.getElementById('deleteAlertModal').classList.remove('hidden');
     }
-
-    // Delete reservation (open modal)
-    async function deleteReservation(id) {
-      showDeleteModal(id);
-    }
+    // Hide delete alert modal
+    document.getElementById('deleteAlertOkBtn').onclick = function() {
+      document.getElementById('deleteAlertModal').classList.add('hidden');
+    };
 
     // --- DARK/LIGHT MODE TOGGLE LOGIC ---
     const themeToggle = document.getElementById('themeToggle');
