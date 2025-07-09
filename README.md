@@ -61,18 +61,12 @@
 
 ---
 
-## Screenshots
-
-> _Add screenshots of the UI here if desired!_
-
----
-
 ## License
 
-MIT (or your preferred license)
+MIT
 
 ---
 
 ## Author
 
-- [Your Name]
+- [JOELNATHAN544]
