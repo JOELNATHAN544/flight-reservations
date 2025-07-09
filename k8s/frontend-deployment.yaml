@@ -15,6 +15,7 @@ spec:
       containers:
         - name: frontend
           image: flight-frontend:latest
+          imagePullPolicy: Never
           ports:
             - containerPort: 80
 ---
