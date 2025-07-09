@@ -61,4 +61,8 @@ public class FlightTicketService {
         existing.setStatus(ticket.getStatus());
         return repository.save(existing);
     }
+
+    public void deleteTicket(Long id) {
+        repository.deleteById(id);
+    }
 } 
