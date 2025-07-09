@@ -1,9 +1,11 @@
 package com.adorsys_gis.demo.repository;
 
-import com.adorsys_gis.demo.model.FlightTicket;
-import org.springframework.data.jpa.repository.JpaRepository;
-import java.util.List;
 import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.adorsys_gis.demo.model.FlightTicket;
 
 public interface FlightTicketRepository extends JpaRepository<FlightTicket, Long> {
     List<FlightTicket> findByDepartureAddressContainingIgnoreCase(String departureAddress);
