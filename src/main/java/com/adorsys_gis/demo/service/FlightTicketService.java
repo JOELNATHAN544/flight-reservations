@@ -33,4 +33,12 @@ public class FlightTicketService {
     public List<FlightTicket> searchByKickoffTime(LocalDateTime kickoffTime) {
         return repository.findByKickoffTime(kickoffTime);
     }
+
+    public List<FlightTicket> searchByFlightNumber(String flightNumber) {
+        return repository.findByFlightNumberContainingIgnoreCase(flightNumber);
+    }
+
+    public List<FlightTicket> searchByStatus(FlightTicket.Status status) {
+        return repository.findByStatus(status);
+    }
 } 
