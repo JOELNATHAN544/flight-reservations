@@ -21,29 +21,35 @@
     }
   </script>
 </head>
-<body class="bg-gray-900 text-gray-100 min-h-screen">
+<body class="bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 min-h-screen">
   <div class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-8 text-center text-primary">Flight Reservation Management</h1>
+    <div class="flex justify-between items-center mb-8">
+      <h1 class="text-3xl font-bold text-center text-primary flex-1">Flight Reservation Management</h1>
+      <!-- Theme Toggle Button: shows the *opposite* mode icon -->
+      <button id="themeToggle" aria-label="Toggle dark/light mode" class="ml-4 p-2 rounded-full border border-gray-300 bg-white text-gray-900 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary transition">
+        <span id="themeIcon" class="text-xl">☀️</span>
+      </button>
+    </div>
     <div class="flex flex-col md:flex-row gap-8">
       <!-- Create Reservation Form -->
-      <div class="md:w-1/2 bg-gray-800 rounded-lg p-6 shadow-lg">
-        <h2 class="text-xl font-semibold mb-4">Create Reservation</h2>
+      <div class="md:w-1/2 bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg border border-gray-200 dark:border-gray-700">
+        <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Create Reservation</h2>
         <form id="createForm" class="space-y-4">
           <div class="flex gap-4">
-            <input type="text" id="companyName" name="companyName" placeholder="Company Name" required class="w-1/2 p-2 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary">
-            <input type="text" id="passengerName" name="passengerName" placeholder="Passenger Name" required class="w-1/2 p-2 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary">
+            <input type="text" id="companyName" name="companyName" placeholder="Company Name" required class="w-1/2 p-2 rounded bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary">
+            <input type="text" id="passengerName" name="passengerName" placeholder="Passenger Name" required class="w-1/2 p-2 rounded bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary">
           </div>
           <div class="flex gap-4">
-            <input type="text" id="flightNumber" name="flightNumber" placeholder="Flight Number" required class="w-1/2 p-2 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary">
-            <input type="number" id="price" name="price" placeholder="Price" min="0" step="0.01" required class="w-1/2 p-2 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary">
+            <input type="text" id="flightNumber" name="flightNumber" placeholder="Flight Number" required class="w-1/2 p-2 rounded bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary">
+            <input type="number" id="price" name="price" placeholder="Price" min="0" step="0.01" required class="w-1/2 p-2 rounded bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary">
           </div>
           <div class="flex gap-4">
-            <input type="text" id="departureAddress" name="departureAddress" placeholder="Departure Address" required class="w-1/2 p-2 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary">
-            <input type="text" id="destinationAddress" name="destinationAddress" placeholder="Destination Address" required class="w-1/2 p-2 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary">
+            <input type="text" id="departureAddress" name="departureAddress" placeholder="Departure Address" required class="w-1/2 p-2 rounded bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary">
+            <input type="text" id="destinationAddress" name="destinationAddress" placeholder="Destination Address" required class="w-1/2 p-2 rounded bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary">
           </div>
           <div class="flex gap-4">
-            <input type="datetime-local" id="kickoffTime" name="kickoffTime" required class="w-1/2 p-2 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary">
-            <select id="status" name="status" required class="w-1/2 p-2 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary">
+            <input type="datetime-local" id="kickoffTime" name="kickoffTime" required class="w-1/2 p-2 rounded bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary">
+            <select id="status" name="status" required class="w-1/2 p-2 rounded bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary">
               <option value="" disabled selected>Status</option>
               <option value="CONFIRMED">CONFIRMED</option>
               <option value="PENDING">PENDING</option>
@@ -55,33 +61,33 @@
         </form>
       </div>
       <!-- Search Reservations Form -->
-      <div class="md:w-1/2 bg-gray-800 rounded-lg p-6 shadow-lg">
-        <h2 class="text-xl font-semibold mb-4">Search Reservations</h2>
+      <div class="md:w-1/2 bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg border border-gray-200 dark:border-gray-700">
+        <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Search Reservations</h2>
         <form id="searchForm" class="space-y-4">
-          <input type="text" id="searchDeparture" placeholder="Departure Address" class="w-full p-2 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary">
-          <input type="text" id="searchDestination" placeholder="Destination Address" class="w-full p-2 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary">
-          <input type="text" id="searchFlightNumber" placeholder="Flight Number" class="w-full p-2 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary">
-          <select id="searchStatus" class="w-full p-2 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary">
+          <input type="text" id="searchDeparture" placeholder="Departure Address" class="w-full p-2 rounded bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary">
+          <input type="text" id="searchDestination" placeholder="Destination Address" class="w-full p-2 rounded bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary">
+          <input type="text" id="searchFlightNumber" placeholder="Flight Number" class="w-full p-2 rounded bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary">
+          <select id="searchStatus" class="w-full p-2 rounded bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary">
             <option value="">Status (Any)</option>
             <option value="CONFIRMED">CONFIRMED</option>
             <option value="PENDING">PENDING</option>
             <option value="CANCELLED">CANCELLED</option>
           </select>
-          <input type="datetime-local" id="searchKickoffTime" placeholder="Kickoff Time" class="w-full p-2 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary">
+          <input type="datetime-local" id="searchKickoffTime" placeholder="Kickoff Time" class="w-full p-2 rounded bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary">
           <div class="flex gap-4">
             <button type="submit" class="flex-1 py-2 px-4 bg-accent text-white rounded hover:bg-orange-600 transition">Search</button>
-            <button type="button" id="clearSearch" class="flex-1 py-2 px-4 bg-gray-600 text-white rounded hover:bg-gray-700 transition">Clear Search</button>
+            <button type="button" id="clearSearch" class="flex-1 py-2 px-4 bg-gray-300 dark:bg-gray-600 text-gray-900 dark:text-white rounded hover:bg-gray-400 dark:hover:bg-gray-700 transition">Clear Search</button>
           </div>
         </form>
       </div>
     </div>
     <!-- Reservations Table -->
-    <div class="mt-10 bg-gray-800 rounded-lg p-6 shadow-lg overflow-x-auto">
-      <h2 class="text-xl font-semibold mb-4">Reservations</h2>
+    <div class="mt-10 bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg overflow-x-auto border border-gray-200 dark:border-gray-700">
+      <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Reservations</h2>
       <div id="loading" class="text-center text-accent mb-2 hidden">Loading...</div>
       <table class="min-w-full table-auto text-sm">
         <thead>
-          <tr class="bg-gray-700">
+          <tr class="bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100">
             <th class="px-2 py-2">#</th>
             <th class="px-2 py-2">Company</th>
             <th class="px-2 py-2">Passenger</th>
@@ -94,7 +100,7 @@
             <th class="px-2 py-2"></th>
           </tr>
         </thead>
-        <tbody id="reservationsTable" class="bg-gray-900">
+        <tbody id="reservationsTable" class="bg-white dark:bg-gray-900">
           <!-- Reservations will be inserted here -->
         </tbody>
       </table>
@@ -338,6 +344,40 @@
     async function deleteReservation(id) {
       showDeleteModal(id);
     }
+
+    // --- DARK/LIGHT MODE TOGGLE LOGIC ---
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+
+    // Helper: Set theme and update icon
+    function setTheme(theme) {
+      if (theme === 'light') {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+        // Show moon icon (indicates you can switch to dark)
+        themeIcon.textContent = '🌙';
+      } else {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+        // Show sun icon (indicates you can switch to light)
+        themeIcon.textContent = '☀️';
+      }
+    }
+
+    // On page load: check localStorage, default to dark
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+      setTheme('light');
+    } else {
+      setTheme('dark');
+    }
+
+    // Toggle handler: switch theme and update icon
+    themeToggle.addEventListener('click', () => {
+      const isDark = document.documentElement.classList.contains('dark');
+      setTheme(isDark ? 'light' : 'dark');
+    });
+    // --- END THEME LOGIC ---
 
     // Initial fetch
     fetchReservations();
