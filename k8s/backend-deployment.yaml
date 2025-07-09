@@ -15,6 +15,7 @@ spec:
       containers:
         - name: backend
           image: flight-backend:latest
+          imagePullPolicy: Never
           ports:
             - containerPort: 8080
 ---
