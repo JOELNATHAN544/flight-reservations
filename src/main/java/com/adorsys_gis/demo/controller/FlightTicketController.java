@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.adorsys_gis.demo.model.FlightTicket;
 import com.adorsys_gis.demo.service.FlightTicketService;
@@ -54,5 +56,11 @@ public class FlightTicketController {
         } else {
             return service.getAllTickets();
         }
+    }
+
+    @PutMapping("/{id}")
+    public FlightTicket updateTicket(@PathVariable Long id, @RequestBody FlightTicket ticket) {
+        ticket.setId(id);
+        return service.updateTicket(ticket);
     }
 } 

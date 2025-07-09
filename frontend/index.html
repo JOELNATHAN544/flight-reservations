@@ -158,12 +158,61 @@
           <td class="px-2 py-1">${formatDateTime(r.kickoffTime)}</td>
           <td class="px-2 py-1">${r.price ?? ''}</td>
           <td class="px-2 py-1">${r.status ?? ''}</td>
+          <td class="px-2 py-1"><button class='edit-btn bg-accent text-white px-2 py-1 rounded' data-id='${r.id}'>Edit</button></td>
         `;
         tbody.appendChild(tr);
       });
+      // Add edit button listeners
+      document.querySelectorAll('.edit-btn').forEach(btn => {
+        btn.addEventListener('click', () => startEdit(btn.dataset.id));
+      });
     }
 
-    // Handle create reservation form
+    // Edit mode state
+    let editId = null;
+
+    // Start editing a reservation
+    function startEdit(id) {
+      editId = id;
+      const row = Array.from(document.querySelectorAll('#reservationsTable tr')).find(tr => tr.querySelector('.edit-btn').dataset.id == id);
+      const cells = row.querySelectorAll('td');
+      document.getElementById('companyName').value = cells[1].textContent;
+      document.getElementById('passengerName').value = cells[2].textContent;
+      document.getElementById('flightNumber').value = cells[3].textContent;
+      document.getElementById('departureAddress').value = cells[4].textContent;
+      document.getElementById('destinationAddress').value = cells[5].textContent;
+      document.getElementById('kickoffTime').value = cells[6].textContent ? new Date(cells[6].textContent.replace(' ', 'T')).toISOString().slice(0,16) : '';
+      document.getElementById('price').value = cells[7].textContent;
+      document.getElementById('status').value = cells[8].textContent;
+      document.querySelector('#createForm button[type="submit"]').textContent = 'Update Reservation';
+      showCancelEditBtn(true);
+    }
+
+    // Show/hide Cancel Edit button
+    function showCancelEditBtn(show) {
+      let btn = document.getElementById('cancelEditBtn');
+      if (!btn && show) {
+        btn = document.createElement('button');
+        btn.id = 'cancelEditBtn';
+        btn.type = 'button';
+        btn.className = 'w-full py-2 px-4 bg-gray-600 text-white rounded hover:bg-gray-700 transition mt-2';
+        btn.textContent = 'Cancel Edit';
+        btn.onclick = cancelEdit;
+        document.getElementById('createForm').appendChild(btn);
+      } else if (btn && !show) {
+        btn.remove();
+      }
+    }
+
+    // Cancel edit mode
+    function cancelEdit() {
+      editId = null;
+      document.getElementById('createForm').reset();
+      document.querySelector('#createForm button[type="submit"]').textContent = 'Create Reservation';
+      showCancelEditBtn(false);
+    }
+
+    // Handle create/edit reservation form
     document.getElementById('createForm').addEventListener('submit', async e => {
       e.preventDefault();
       const msg = document.getElementById('createMsg');
@@ -179,14 +228,24 @@
         status: form.status.value
       };
       try {
-        const res = await fetch(API_BASE, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        });
-        if (!res.ok) throw new Error('Failed to create reservation');
-        showMessage(msg, 'Reservation created!', true);
+        let res;
+        if (editId) {
+          res = await fetch(`${API_BASE}/${editId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+          });
+        } else {
+          res = await fetch(API_BASE, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+          });
+        }
+        if (!res.ok) throw new Error(editId ? 'Failed to update reservation' : 'Failed to create reservation');
+        showMessage(msg, editId ? 'Reservation updated!' : 'Reservation created!', true);
         form.reset();
+        cancelEdit();
         fetchReservations();
       } catch (err) {
         showMessage(msg, err.message, false);
