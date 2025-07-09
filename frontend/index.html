@@ -23,7 +23,12 @@
 </head>
 <body class="bg-gray-900 text-gray-100 min-h-screen">
   <div class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-8 text-center text-primary">Flight Reservation Management</h1>
+    <div class="flex justify-between items-center mb-8">
+      <h1 class="text-3xl font-bold text-center text-primary flex-1">Flight Reservation Management</h1>
+      <button id="themeToggle" aria-label="Toggle dark/light mode" class="ml-4 p-2 rounded-full border border-gray-500 bg-gray-700 dark:bg-gray-200 dark:border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary transition">
+        <span id="themeIcon" class="text-xl">🌙</span>
+      </button>
+    </div>
     <div class="flex flex-col md:flex-row gap-8">
       <!-- Create Reservation Form -->
       <div class="md:w-1/2 bg-gray-800 rounded-lg p-6 shadow-lg">
@@ -338,6 +343,34 @@
     async function deleteReservation(id) {
       showDeleteModal(id);
     }
+
+    // Theme toggle logic
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    // Apply theme from localStorage or default to light
+    function applyTheme(theme) {
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+        themeIcon.textContent = '🌙';
+        themeToggle.classList.remove('bg-white');
+        themeToggle.classList.add('bg-gray-700');
+      } else {
+        document.documentElement.classList.remove('dark');
+        themeIcon.textContent = '☀️';
+        themeToggle.classList.remove('bg-gray-700');
+        themeToggle.classList.add('bg-white');
+      }
+    }
+    // On load, set theme
+    const savedTheme = localStorage.getItem('theme');
+    applyTheme(savedTheme || 'light');
+    // Toggle handler
+    themeToggle.addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark');
+      const newTheme = isDark ? 'dark' : 'light';
+      localStorage.setItem('theme', newTheme);
+      applyTheme(newTheme);
+    });
 
     // Initial fetch
     fetchReservations();
