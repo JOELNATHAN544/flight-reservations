@@ -68,4 +68,3 @@ public class FlightTicketController {
         service.deleteTicket(id);
     }
 } 
-
