@@ -269,10 +269,10 @@
           });
         } else {
           res = await fetch(API_BASE, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-          });
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
         }
         if (!res.ok) throw new Error(editId ? 'Failed to update reservation' : 'Failed to create reservation');
         showMessage(msg, editId ? 'Reservation updated!' : 'Reservation created!', true);

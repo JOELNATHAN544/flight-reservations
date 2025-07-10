@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flight-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flight-frontend
+  template:
+    metadata:
+      labels:
+        app: flight-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: flight-frontend:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flight-frontend
+spec:
+  selector:
+    app: flight-frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: NodePort 
