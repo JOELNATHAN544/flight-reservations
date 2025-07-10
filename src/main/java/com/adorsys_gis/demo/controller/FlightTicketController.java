@@ -3,7 +3,6 @@ package com.adorsys_gis.demo.controller;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/tickets")
-@CrossOrigin(origins = "http://localhost:8081")
 @RequiredArgsConstructor
 public class FlightTicketController {
     private final FlightTicketService service;
@@ -70,3 +68,4 @@ public class FlightTicketController {
         service.deleteTicket(id);
     }
 } 
+
