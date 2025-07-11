@@ -20,6 +20,8 @@ function App() {
   const [darkMode, setDarkMode] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
 
   // Toggle dark mode
   React.useEffect(() => {
@@ -34,6 +36,11 @@ function App() {
   React.useEffect(() => {
     loadTickets();
   }, []);
+
+  // When reservations change, reset to first page if needed
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [reservations.length]);
 
   async function loadTickets() {
     setLoading(true); setError(null);
@@ -107,6 +114,8 @@ function App() {
   };
 
   const editingReservation = reservations.find(r => r.id === editing);
+  const pageCount = Math.ceil(reservations.length / pageSize);
+  const paginatedReservations = reservations.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
   const toastIcons = {
     success: <span style={{fontSize: '1.5rem', marginRight: 8}}>✔️</span>,
@@ -172,14 +181,14 @@ function App() {
               </tr>
             </thead>
             <tbody className="bg-white dark:bg-gray-900">
-              {reservations.length === 0 ? (
+              {paginatedReservations.length === 0 ? (
                 <tr>
                   <td colSpan="10" className="text-center text-gray-400 py-4">{t('noReservations')}</td>
                 </tr>
               ) : (
-                reservations.map((r, i) => (
+                paginatedReservations.map((r, i) => (
                   <tr key={r.id}>
-                    <td className="px-2 py-1">{i + 1}</td>
+                    <td className="px-2 py-1">{(currentPage - 1) * pageSize + i + 1}</td>
                     <td className="px-2 py-1">{r.companyName}</td>
                     <td className="px-2 py-1">{r.passengerName}</td>
                     <td className="px-2 py-1">{r.flightNumber}</td>
@@ -197,6 +206,48 @@ function App() {
               )}
             </tbody>
           </table>
+          {/* Pagination Controls */}
+          {pageCount > 1 && (
+            <div className="flex items-center justify-between mt-4">
+              <div>
+                <button
+                  className="px-3 py-1 rounded border mr-2 disabled:opacity-50"
+                  onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                  disabled={currentPage === 1}
+                >
+                  {"<"}
+                </button>
+                {Array.from({ length: pageCount }, (_, i) => (
+                  <button
+                    key={i}
+                    className={`px-3 py-1 rounded border mx-1 ${currentPage === i + 1 ? 'bg-primary text-white' : ''}`}
+                    onClick={() => setCurrentPage(i + 1)}
+                  >
+                    {i + 1}
+                  </button>
+                ))}
+                <button
+                  className="px-3 py-1 rounded border ml-2 disabled:opacity-50"
+                  onClick={() => setCurrentPage(p => Math.min(pageCount, p + 1))}
+                  disabled={currentPage === pageCount}
+                >
+                  {">"}
+                </button>
+              </div>
+              <div>
+                <label className="mr-2">{t('actions') || 'Rows per page:'}</label>
+                <select
+                  value={pageSize}
+                  onChange={e => setPageSize(Number(e.target.value))}
+                  className="p-1 rounded border"
+                >
+                  {[5, 10, 20, 50].map(size => (
+                    <option key={size} value={size}>{size}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
