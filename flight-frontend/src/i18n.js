@@ -51,6 +51,56 @@ const resources = {
       "reservations": "Réservations",
       "noReservations": "Aucune réservation trouvée."
     }
+  },
+  de: {
+    translation: {
+      "welcome": "Willkommen zur Flugreservierung",
+      "create": "Reservierung erstellen",
+      "search": "Reservierungen suchen",
+      "passengerName": "Passagiername",
+      "companyName": "Fluggesellschaft",
+      "flightNumber": "Flugnummer",
+      "departureAddress": "Abflugadresse",
+      "destinationAddress": "Zieladresse",
+      "kickoffTime": "Abflugzeit",
+      "price": "Preis",
+      "status": "Status",
+      "confirmed": "Bestätigt",
+      "pending": "Ausstehend",
+      "cancelled": "Storniert",
+      "any": "Alle",
+      "clearSearch": "Suche löschen",
+      "edit": "Bearbeiten",
+      "delete": "Löschen",
+      "actions": "Aktionen",
+      "reservations": "Reservierungen",
+      "noReservations": "Keine Reservierungen gefunden."
+    }
+  },
+  es: {
+    translation: {
+      "welcome": "Bienvenido a la Reserva de Vuelos",
+      "create": "Crear Reserva",
+      "search": "Buscar Reservas",
+      "passengerName": "Nombre del Pasajero",
+      "companyName": "Nombre de la Compañía",
+      "flightNumber": "Número de Vuelo",
+      "departureAddress": "Dirección de Salida",
+      "destinationAddress": "Dirección de Destino",
+      "kickoffTime": "Hora de Salida",
+      "price": "Precio",
+      "status": "Estado",
+      "confirmed": "Confirmado",
+      "pending": "Pendiente",
+      "cancelled": "Cancelado",
+      "any": "Cualquiera",
+      "clearSearch": "Limpiar Búsqueda",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "actions": "Acciones",
+      "reservations": "Reservas",
+      "noReservations": "No se encontraron reservas."
+    }
   }
 };
 
