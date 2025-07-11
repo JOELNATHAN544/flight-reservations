@@ -6,15 +6,20 @@ import { useTranslation } from 'react-i18next';
 function App() {
   const { t } = useTranslation();
   const [reservations, setReservations] = useState([]);
+  const [editing, setEditing] = useState(null); // id of reservation being edited
 
-  // Simulate backend create
+  // Create or update reservation
   const handleCreate = (form) => {
-    setReservations(prev => [...prev, { ...form, id: prev.length + 1 }]);
+    if (editing !== null) {
+      setReservations(prev => prev.map(r => r.id === editing ? { ...form, id: editing } : r));
+      setEditing(null);
+    } else {
+      setReservations(prev => [...prev, { ...form, id: prev.length + 1 }]);
+    }
   };
 
-  // Simulate backend search
+  // Search reservations
   const handleSearch = (criteria) => {
-    // For now, just filter the local reservations array
     setReservations(prev => prev.filter(r => {
       return (
         (!criteria.departure || r.departureAddress === criteria.departure) &&
@@ -28,14 +33,26 @@ function App() {
 
   const handleClear = () => {
     setReservations([]); // In a real app, reload all reservations from backend
+    setEditing(null);
   };
+
+  const handleDelete = (id) => {
+    setReservations(prev => prev.filter(r => r.id !== id));
+    if (editing === id) setEditing(null);
+  };
+
+  const handleEdit = (id) => {
+    setEditing(id);
+  };
+
+  const editingReservation = reservations.find(r => r.id === editing);
 
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold text-center text-primary mb-8">{t('welcome')}</h1>
       <div className="flex flex-col md:flex-row gap-8">
         <div className="md:w-1/2">
-          <ReservationForm onSubmit={handleCreate} />
+          <ReservationForm onSubmit={handleCreate} initialData={editingReservation} />
         </div>
         <div className="md:w-1/2">
           <SearchForm onSearch={handleSearch} onClear={handleClear} />
@@ -55,16 +72,17 @@ function App() {
               <th className="px-2 py-2">{t('kickoffTime')}</th>
               <th className="px-2 py-2">{t('price')}</th>
               <th className="px-2 py-2">{t('status')}</th>
+              <th className="px-2 py-2">{t('actions')}</th>
             </tr>
           </thead>
           <tbody className="bg-white dark:bg-gray-900">
             {reservations.length === 0 ? (
               <tr>
-                <td colSpan="9" className="text-center text-gray-400 py-4">{t('noReservations')}</td>
+                <td colSpan="10" className="text-center text-gray-400 py-4">{t('noReservations')}</td>
               </tr>
             ) : (
               reservations.map((r, i) => (
-                <tr key={i}>
+                <tr key={r.id}>
                   <td className="px-2 py-1">{i + 1}</td>
                   <td className="px-2 py-1">{r.companyName}</td>
                   <td className="px-2 py-1">{r.passengerName}</td>
@@ -74,6 +92,10 @@ function App() {
                   <td className="px-2 py-1">{r.kickoffTime}</td>
                   <td className="px-2 py-1">{r.price}</td>
                   <td className="px-2 py-1">{r.status}</td>
+                  <td className="px-2 py-1">
+                    <button className="bg-accent text-white px-2 py-1 rounded mr-2" onClick={() => handleEdit(r.id)}>{t('edit')}</button>
+                    <button className="bg-red-600 text-white px-2 py-1 rounded" onClick={() => handleDelete(r.id)}>{t('delete')}</button>
+                  </td>
                 </tr>
               ))
             )}
