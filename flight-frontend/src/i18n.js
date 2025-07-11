@@ -101,6 +101,31 @@ const resources = {
       "reservations": "Reservas",
       "noReservations": "No se encontraron reservas."
     }
+  },
+  zh: {
+    translation: {
+      "welcome": "欢迎使用航班预订",
+      "create": "创建预订",
+      "search": "搜索预订",
+      "passengerName": "乘客姓名",
+      "companyName": "公司名称",
+      "flightNumber": "航班号",
+      "departureAddress": "出发地址",
+      "destinationAddress": "目的地地址",
+      "kickoffTime": "起飞时间",
+      "price": "价格",
+      "status": "状态",
+      "confirmed": "已确认",
+      "pending": "待定",
+      "cancelled": "已取消",
+      "any": "任何",
+      "clearSearch": "清除搜索",
+      "edit": "编辑",
+      "delete": "删除",
+      "actions": "操作",
+      "reservations": "预订",
+      "noReservations": "未找到预订。"
+    }
   }
 };
 
