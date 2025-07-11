@@ -193,7 +193,7 @@ function App() {
         </div>
       </div>
     </div>
-      <ToastContainer position="top-right" autoClose={3000} />
+      <ToastContainer position="top-right" autoClose={3000} theme={darkMode ? 'dark' : 'light'} />
     </>
   );
 }
