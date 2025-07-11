@@ -24,7 +24,12 @@ const resources = {
       "delete": "Delete",
       "actions": "Actions",
       "reservations": "Reservations",
-      "noReservations": "No reservations found."
+      "noReservations": "No reservations found.",
+      "reservationCreated": "Reservation created successfully!",
+      "reservationUpdated": "Reservation updated successfully!",
+      "reservationDeleted": "Reservation deleted successfully!",
+      "reservationSaveError": "Failed to save reservation: {{error}}",
+      "reservationDeleteError": "Failed to delete reservation: {{error}}"
     }
   },
   fr: {
@@ -49,7 +54,12 @@ const resources = {
       "delete": "Supprimer",
       "actions": "Actions",
       "reservations": "Réservations",
-      "noReservations": "Aucune réservation trouvée."
+      "noReservations": "Aucune réservation trouvée.",
+      "reservationCreated": "Réservation créée avec succès !",
+      "reservationUpdated": "Réservation mise à jour avec succès !",
+      "reservationDeleted": "Réservation supprimée avec succès !",
+      "reservationSaveError": "Échec de l'enregistrement de la réservation : {{error}}",
+      "reservationDeleteError": "Échec de la suppression de la réservation : {{error}}"
     }
   },
   de: {
@@ -74,7 +84,12 @@ const resources = {
       "delete": "Löschen",
       "actions": "Aktionen",
       "reservations": "Reservierungen",
-      "noReservations": "Keine Reservierungen gefunden."
+      "noReservations": "Keine Reservierungen gefunden.",
+      "reservationCreated": "Reservierung erfolgreich erstellt!",
+      "reservationUpdated": "Reservierung erfolgreich aktualisiert!",
+      "reservationDeleted": "Reservierung erfolgreich gelöscht!",
+      "reservationSaveError": "Reservierung konnte nicht gespeichert werden: {{error}}",
+      "reservationDeleteError": "Reservierung konnte nicht gelöscht werden: {{error}}"
     }
   },
   es: {
@@ -99,7 +114,12 @@ const resources = {
       "delete": "Eliminar",
       "actions": "Acciones",
       "reservations": "Reservas",
-      "noReservations": "No se encontraron reservas."
+      "noReservations": "No se encontraron reservas.",
+      "reservationCreated": "¡Reserva creada con éxito!",
+      "reservationUpdated": "¡Reserva actualizada con éxito!",
+      "reservationDeleted": "¡Reserva eliminada con éxito!",
+      "reservationSaveError": "Error al guardar la reserva: {{error}}",
+      "reservationDeleteError": "Error al eliminar la reserva: {{error}}"
     }
   },
   zh: {
@@ -124,7 +144,12 @@ const resources = {
       "delete": "删除",
       "actions": "操作",
       "reservations": "预订",
-      "noReservations": "未找到预订。"
+      "noReservations": "未找到预订。",
+      "reservationCreated": "预订创建成功！",
+      "reservationUpdated": "预订更新成功！",
+      "reservationDeleted": "预订删除成功！",
+      "reservationSaveError": "保存预订失败：{{error}}",
+      "reservationDeleteError": "删除预订失败：{{error}}"
     }
   },
   he: {
@@ -149,7 +174,12 @@ const resources = {
       "delete": "מחק",
       "actions": "פעולות",
       "reservations": "הזמנות",
-      "noReservations": "לא נמצאו הזמנות."
+      "noReservations": "לא נמצאו הזמנות.",
+      "reservationCreated": "ההזמנה נוצרה בהצלחה!",
+      "reservationUpdated": "ההזמנה עודכנה בהצלחה!",
+      "reservationDeleted": "ההזמנה נמחקה בהצלחה!",
+      "reservationSaveError": "שמירת ההזמנה נכשלה: {{error}}",
+      "reservationDeleteError": "מחיקת ההזמנה נכשלה: {{error}}"
     }
   }
 };
