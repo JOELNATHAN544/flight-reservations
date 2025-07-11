@@ -36,3 +36,4 @@ out/
 ### VS Code ###
 .vscode/
 sync_to_vm.sh
+k8s/restart_workflow.sh
