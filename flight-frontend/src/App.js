@@ -22,6 +22,7 @@ function App() {
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
+  const [modal, setModal] = useState({ open: false, action: null, id: null });
 
   // Toggle dark mode
   React.useEffect(() => {
@@ -95,24 +96,36 @@ function App() {
     await loadTickets();
   };
 
+  // Custom confirmation modal logic
+  const openConfirmModal = (action, id) => setModal({ open: true, action, id });
+  const closeModal = () => setModal({ open: false, action: null, id: null });
+
   const handleDelete = async (id) => {
-    if (!window.confirm(t('confirmDelete'))) return;
-    setLoading(true); setError(null);
-    try {
-      await apiDeleteTicket(id);
-      toast.success(<span>{toastIcons.success}{t('reservationDeleted')}</span>);
-      await loadTickets();
-    } catch (e) {
-      setError(e.message);
-      toast.error(<span>{toastIcons.error}{t('reservationDeleteError', { error: e.message })}</span>);
-    } finally {
-      setLoading(false);
-    }
+    openConfirmModal('delete', id);
   };
 
   const handleEdit = (id) => {
-    if (!window.confirm(t('confirmEdit'))) return;
-    setEditing(id);
+    openConfirmModal('edit', id);
+  };
+
+  const confirmAction = async () => {
+    if (modal.action === 'delete') {
+      setLoading(true); setError(null);
+      try {
+        await apiDeleteTicket(modal.id);
+        toast.success(<span>{toastIcons.success}{t('reservationDeleted')}</span>);
+        await loadTickets();
+      } catch (e) {
+        setError(e.message);
+        toast.error(<span>{toastIcons.error}{t('reservationDeleteError', { error: e.message })}</span>);
+      } finally {
+        setLoading(false);
+        closeModal();
+      }
+    } else if (modal.action === 'edit') {
+      setEditing(modal.id);
+      closeModal();
+    }
   };
 
   const editingReservation = reservations.find(r => r.id === editing);
@@ -253,6 +266,37 @@ function App() {
         </div>
       </div>
     </div>
+      {/* Confirmation Modal */}
+      {modal.open && (
+        <div className={
+          `fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 transition-colors`}
+        >
+          <div className={
+            `rounded-lg shadow-xl p-8 max-w-sm w-full border ` +
+            (darkMode
+              ? 'bg-gray-800 border-gray-700 text-gray-100'
+              : 'bg-white border-gray-200 text-gray-900')
+          }>
+            <div className="mb-4 text-lg font-semibold text-center">
+              {modal.action === 'delete' ? t('confirmDelete') : t('confirmEdit')}
+            </div>
+            <div className="flex justify-center gap-4 mt-6">
+              <button
+                className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700 transition font-semibold shadow"
+                onClick={confirmAction}
+              >
+                {modal.action === 'delete' ? t('delete') : t('edit')}
+              </button>
+              <button
+                className="px-4 py-2 rounded bg-gray-300 dark:bg-gray-600 text-gray-900 dark:text-white hover:bg-gray-400 dark:hover:bg-gray-700 transition font-semibold shadow"
+                onClick={closeModal}
+              >
+                {t('cancel') || 'Cancel'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <ToastContainer
         position="top-right"
         autoClose={4000}
