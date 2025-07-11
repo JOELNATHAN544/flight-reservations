@@ -96,6 +96,7 @@ function App() {
   };
 
   const handleDelete = async (id) => {
+    if (!window.confirm(t('confirmDelete'))) return;
     setLoading(true); setError(null);
     try {
       await apiDeleteTicket(id);
@@ -110,6 +111,7 @@ function App() {
   };
 
   const handleEdit = (id) => {
+    if (!window.confirm(t('confirmEdit'))) return;
     setEditing(id);
   };
 

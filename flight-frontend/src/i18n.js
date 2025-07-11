@@ -29,7 +29,9 @@ const resources = {
       "reservationUpdated": "Reservation updated successfully!",
       "reservationDeleted": "Reservation deleted successfully!",
       "reservationSaveError": "Failed to save reservation: {{error}}",
-      "reservationDeleteError": "Failed to delete reservation: {{error}}"
+      "reservationDeleteError": "Failed to delete reservation: {{error}}",
+      "confirmDelete": "Are you sure you want to delete this reservation?",
+      "confirmEdit": "Are you sure you want to edit this reservation?"
     }
   },
   fr: {
@@ -59,7 +61,9 @@ const resources = {
       "reservationUpdated": "Réservation mise à jour avec succès !",
       "reservationDeleted": "Réservation supprimée avec succès !",
       "reservationSaveError": "Échec de l'enregistrement de la réservation : {{error}}",
-      "reservationDeleteError": "Échec de la suppression de la réservation : {{error}}"
+      "reservationDeleteError": "Échec de la suppression de la réservation : {{error}}",
+      "confirmDelete": "Êtes-vous sûr de vouloir supprimer cette réservation ?",
+      "confirmEdit": "Êtes-vous sûr de vouloir modifier cette réservation ?"
     }
   },
   de: {
@@ -89,7 +93,9 @@ const resources = {
       "reservationUpdated": "Reservierung erfolgreich aktualisiert!",
       "reservationDeleted": "Reservierung erfolgreich gelöscht!",
       "reservationSaveError": "Reservierung konnte nicht gespeichert werden: {{error}}",
-      "reservationDeleteError": "Reservierung konnte nicht gelöscht werden: {{error}}"
+      "reservationDeleteError": "Reservierung konnte nicht gelöscht werden: {{error}}",
+      "confirmDelete": "Möchten Sie diese Reservierung wirklich löschen?",
+      "confirmEdit": "Möchten Sie diese Reservierung wirklich bearbeiten?"
     }
   },
   es: {
@@ -119,7 +125,9 @@ const resources = {
       "reservationUpdated": "¡Reserva actualizada con éxito!",
       "reservationDeleted": "¡Reserva eliminada con éxito!",
       "reservationSaveError": "Error al guardar la reserva: {{error}}",
-      "reservationDeleteError": "Error al eliminar la reserva: {{error}}"
+      "reservationDeleteError": "Error al eliminar la reserva: {{error}}",
+      "confirmDelete": "¿Está seguro de que desea eliminar esta reserva?",
+      "confirmEdit": "¿Está seguro de que desea editar esta reserva?"
     }
   },
   zh: {
@@ -149,7 +157,9 @@ const resources = {
       "reservationUpdated": "预订更新成功！",
       "reservationDeleted": "预订删除成功！",
       "reservationSaveError": "保存预订失败：{{error}}",
-      "reservationDeleteError": "删除预订失败：{{error}}"
+      "reservationDeleteError": "删除预订失败：{{error}}",
+      "confirmDelete": "您确定要删除此预订吗？",
+      "confirmEdit": "您确定要编辑此预订吗？"
     }
   },
   he: {
@@ -179,7 +189,9 @@ const resources = {
       "reservationUpdated": "ההזמנה עודכנה בהצלחה!",
       "reservationDeleted": "ההזמנה נמחקה בהצלחה!",
       "reservationSaveError": "שמירת ההזמנה נכשלה: {{error}}",
-      "reservationDeleteError": "מחיקת ההזמנה נכשלה: {{error}}"
+      "reservationDeleteError": "מחיקת ההזמנה נכשלה: {{error}}",
+      "confirmDelete": "האם אתה בטוח שברצונך למחוק את ההזמנה הזו?",
+      "confirmEdit": "האם אתה בטוח שברצונך לערוך את ההזמנה הזו?"
     }
   }
 };
