@@ -17,12 +17,31 @@ function App() {
   const { t } = useTranslation();
   const [reservations, setReservations] = useState([]);
   const [editing, setEditing] = useState(null); // id of reservation being edited
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    const saved = localStorage.getItem('darkMode');
+    return saved ? JSON.parse(saved) : false;
+  });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
   const [modal, setModal] = useState({ open: false, action: null, id: null });
+
+  // Persist dark mode to localStorage
+  React.useEffect(() => {
+    localStorage.setItem('darkMode', JSON.stringify(darkMode));
+  }, [darkMode]);
+
+  // Persist language to localStorage and initialize from it
+  React.useEffect(() => {
+    const savedLang = localStorage.getItem('language');
+    if (savedLang && savedLang !== i18n.language) {
+      i18n.changeLanguage(savedLang);
+    }
+  }, []);
+  React.useEffect(() => {
+    localStorage.setItem('language', i18n.language);
+  }, [i18n.language]);
 
   // Toggle dark mode
   React.useEffect(() => {
@@ -149,7 +168,10 @@ function App() {
           <button
             aria-label="Toggle dark/light mode"
             className="ml-4 p-2 rounded-full border border-gray-300 bg-white text-gray-900 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary transition"
-            onClick={() => setDarkMode(dm => !dm)}
+            onClick={() => setDarkMode(dm => {
+              localStorage.setItem('darkMode', JSON.stringify(!dm));
+              return !dm;
+            })}
           >
             <span className="text-xl">{darkMode ? '🌙' : '☀️'}</span>
           </button>
