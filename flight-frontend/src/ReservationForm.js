@@ -12,17 +12,32 @@ const initialState = {
   status: 'CONFIRMED',
 };
 
-function ReservationForm({ onSubmit }) {
+function ReservationForm({ onSubmit, initialData }) {
   const { t } = useTranslation();
-  const [form, setForm] = useState(initialState);
+  const [form, setForm] = useState(initialData ? { ...initialState, ...initialData, kickoffTime: initialData.kickoffTime ? initialData.kickoffTime.slice(0, 16) : '' } : initialState);
+
+  React.useEffect(() => {
+    if (initialData) {
+      setForm({ ...initialState, ...initialData, kickoffTime: initialData.kickoffTime ? initialData.kickoffTime.slice(0, 16) : '' });
+    } else {
+      setForm(initialState);
+    }
+    // eslint-disable-next-line
+  }, [initialData]);
 
   const handleChange = e => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    onSubmit(form);
+    // Prepare data for backend
+    const payload = {
+      ...form,
+      price: form.price ? parseFloat(form.price) : 0,
+      kickoffTime: form.kickoffTime ? new Date(form.kickoffTime).toISOString() : null,
+    };
+    await onSubmit(payload);
     setForm(initialState);
   };
 
