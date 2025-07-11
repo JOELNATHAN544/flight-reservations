@@ -126,6 +126,31 @@ const resources = {
       "reservations": "预订",
       "noReservations": "未找到预订。"
     }
+  },
+  he: {
+    translation: {
+      "welcome": "ברוכים הבאים להזמנת טיסות",
+      "create": "צור הזמנה",
+      "search": "חפש הזמנות",
+      "passengerName": "שם הנוסע",
+      "companyName": "שם החברה",
+      "flightNumber": "מספר טיסה",
+      "departureAddress": "כתובת יציאה",
+      "destinationAddress": "כתובת יעד",
+      "kickoffTime": "זמן המראה",
+      "price": "מחיר",
+      "status": "סטטוס",
+      "confirmed": "מאושר",
+      "pending": "ממתין",
+      "cancelled": "בוטל",
+      "any": "כלשהו",
+      "clearSearch": "נקה חיפוש",
+      "edit": "ערוך",
+      "delete": "מחק",
+      "actions": "פעולות",
+      "reservations": "הזמנות",
+      "noReservations": "לא נמצאו הזמנות."
+    }
   }
 };
 
