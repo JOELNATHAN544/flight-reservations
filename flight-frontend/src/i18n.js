@@ -1,0 +1,166 @@
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
+
+const resources = {
+  en: {
+    translation: {
+      "welcome": "Welcome to Flight Reservation",
+      "create": "Create Reservation",
+      "search": "Search Reservations",
+      "passengerName": "Passenger Name",
+      "companyName": "Company Name",
+      "flightNumber": "Flight Number",
+      "departureAddress": "Departure Address",
+      "destinationAddress": "Destination Address",
+      "kickoffTime": "Kickoff Time",
+      "price": "Price",
+      "status": "Status",
+      "confirmed": "Confirmed",
+      "pending": "Pending",
+      "cancelled": "Cancelled",
+      "any": "Any",
+      "clearSearch": "Clear Search",
+      "edit": "Edit",
+      "delete": "Delete",
+      "actions": "Actions",
+      "reservations": "Reservations",
+      "noReservations": "No reservations found."
+    }
+  },
+  fr: {
+    translation: {
+      "welcome": "Bienvenue à la réservation de vol",
+      "create": "Créer une réservation",
+      "search": "Rechercher des réservations",
+      "passengerName": "Nom du passager",
+      "companyName": "Nom de la compagnie",
+      "flightNumber": "Numéro de vol",
+      "departureAddress": "Adresse de départ",
+      "destinationAddress": "Adresse de destination",
+      "kickoffTime": "Heure de départ",
+      "price": "Prix",
+      "status": "Statut",
+      "confirmed": "Confirmé",
+      "pending": "En attente",
+      "cancelled": "Annulé",
+      "any": "Tous",
+      "clearSearch": "Effacer la recherche",
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "actions": "Actions",
+      "reservations": "Réservations",
+      "noReservations": "Aucune réservation trouvée."
+    }
+  },
+  de: {
+    translation: {
+      "welcome": "Willkommen zur Flugreservierung",
+      "create": "Reservierung erstellen",
+      "search": "Reservierungen suchen",
+      "passengerName": "Passagiername",
+      "companyName": "Fluggesellschaft",
+      "flightNumber": "Flugnummer",
+      "departureAddress": "Abflugadresse",
+      "destinationAddress": "Zieladresse",
+      "kickoffTime": "Abflugzeit",
+      "price": "Preis",
+      "status": "Status",
+      "confirmed": "Bestätigt",
+      "pending": "Ausstehend",
+      "cancelled": "Storniert",
+      "any": "Alle",
+      "clearSearch": "Suche löschen",
+      "edit": "Bearbeiten",
+      "delete": "Löschen",
+      "actions": "Aktionen",
+      "reservations": "Reservierungen",
+      "noReservations": "Keine Reservierungen gefunden."
+    }
+  },
+  es: {
+    translation: {
+      "welcome": "Bienvenido a la Reserva de Vuelos",
+      "create": "Crear Reserva",
+      "search": "Buscar Reservas",
+      "passengerName": "Nombre del Pasajero",
+      "companyName": "Nombre de la Compañía",
+      "flightNumber": "Número de Vuelo",
+      "departureAddress": "Dirección de Salida",
+      "destinationAddress": "Dirección de Destino",
+      "kickoffTime": "Hora de Salida",
+      "price": "Precio",
+      "status": "Estado",
+      "confirmed": "Confirmado",
+      "pending": "Pendiente",
+      "cancelled": "Cancelado",
+      "any": "Cualquiera",
+      "clearSearch": "Limpiar Búsqueda",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "actions": "Acciones",
+      "reservations": "Reservas",
+      "noReservations": "No se encontraron reservas."
+    }
+  },
+  zh: {
+    translation: {
+      "welcome": "欢迎使用航班预订",
+      "create": "创建预订",
+      "search": "搜索预订",
+      "passengerName": "乘客姓名",
+      "companyName": "公司名称",
+      "flightNumber": "航班号",
+      "departureAddress": "出发地址",
+      "destinationAddress": "目的地地址",
+      "kickoffTime": "起飞时间",
+      "price": "价格",
+      "status": "状态",
+      "confirmed": "已确认",
+      "pending": "待定",
+      "cancelled": "已取消",
+      "any": "任何",
+      "clearSearch": "清除搜索",
+      "edit": "编辑",
+      "delete": "删除",
+      "actions": "操作",
+      "reservations": "预订",
+      "noReservations": "未找到预订。"
+    }
+  },
+  he: {
+    translation: {
+      "welcome": "ברוכים הבאים להזמנת טיסות",
+      "create": "צור הזמנה",
+      "search": "חפש הזמנות",
+      "passengerName": "שם הנוסע",
+      "companyName": "שם החברה",
+      "flightNumber": "מספר טיסה",
+      "departureAddress": "כתובת יציאה",
+      "destinationAddress": "כתובת יעד",
+      "kickoffTime": "זמן המראה",
+      "price": "מחיר",
+      "status": "סטטוס",
+      "confirmed": "מאושר",
+      "pending": "ממתין",
+      "cancelled": "בוטל",
+      "any": "כלשהו",
+      "clearSearch": "נקה חיפוש",
+      "edit": "ערוך",
+      "delete": "מחק",
+      "actions": "פעולות",
+      "reservations": "הזמנות",
+      "noReservations": "לא נמצאו הזמנות."
+    }
+  }
+};
+
+i18n
+  .use(initReactI18next)
+  .init({
+    resources,
+    lng: 'en',
+    fallbackLng: 'en',
+    interpolation: { escapeValue: false }
+  });
+
+export default i18n; 
