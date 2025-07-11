@@ -2,12 +2,21 @@ import React, { useState } from 'react';
 import ReservationForm from './ReservationForm';
 import SearchForm from './SearchForm';
 import { useTranslation } from 'react-i18next';
+import {
+  fetchTickets,
+  searchTickets,
+  createTicket,
+  updateTicket,
+  deleteTicket as apiDeleteTicket
+} from './api';
 
 function App() {
   const { t } = useTranslation();
   const [reservations, setReservations] = useState([]);
   const [editing, setEditing] = useState(null); // id of reservation being edited
   const [darkMode, setDarkMode] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   // Toggle dark mode
   React.useEffect(() => {
@@ -18,37 +27,71 @@ function App() {
     }
   }, [darkMode]);
 
+  // Fetch all tickets on mount
+  React.useEffect(() => {
+    loadTickets();
+  }, []);
+
+  async function loadTickets() {
+    setLoading(true); setError(null);
+    try {
+      const data = await fetchTickets();
+      setReservations(data);
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   // Create or update reservation
-  const handleCreate = (form) => {
-    if (editing !== null) {
-      setReservations(prev => prev.map(r => r.id === editing ? { ...form, id: editing } : r));
-      setEditing(null);
-    } else {
-      setReservations(prev => [...prev, { ...form, id: prev.length + 1 }]);
+  const handleCreate = async (form) => {
+    setLoading(true); setError(null);
+    try {
+      if (editing !== null) {
+        await updateTicket(editing, form);
+        setEditing(null);
+      } else {
+        await createTicket(form);
+      }
+      await loadTickets();
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   // Search reservations
-  const handleSearch = (criteria) => {
-    setReservations(prev => prev.filter(r => {
-      return (
-        (!criteria.departure || r.departureAddress === criteria.departure) &&
-        (!criteria.destination || r.destinationAddress === criteria.destination) &&
-        (!criteria.flightNumber || r.flightNumber === criteria.flightNumber) &&
-        (!criteria.status || r.status === criteria.status) &&
-        (!criteria.kickoffTime || r.kickoffTime === criteria.kickoffTime)
-      );
-    }));
+  const handleSearch = async (criteria) => {
+    setLoading(true); setError(null);
+    try {
+      // Remove empty fields
+      const params = Object.fromEntries(Object.entries(criteria).filter(([_, v]) => v));
+      const data = await searchTickets(params);
+      setReservations(data);
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleClear = () => {
-    setReservations([]); // In a real app, reload all reservations from backend
+  const handleClear = async () => {
     setEditing(null);
+    await loadTickets();
   };
 
-  const handleDelete = (id) => {
-    setReservations(prev => prev.filter(r => r.id !== id));
-    if (editing === id) setEditing(null);
+  const handleDelete = async (id) => {
+    setLoading(true); setError(null);
+    try {
+      await apiDeleteTicket(id);
+      await loadTickets();
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleEdit = (id) => {
@@ -79,6 +122,8 @@ function App() {
           </div>
         </div>
         <div className="mt-10 bg-gradient-to-br from-white via-gray-50 to-gray-200 dark:from-gray-800 dark:via-gray-900 dark:to-gray-700 rounded-lg p-6 shadow-lg overflow-x-auto border border-gray-200 dark:border-gray-700">
+        {loading && <div className="text-center text-blue-500 mb-2">{t('loading') || 'Loading...'}</div>}
+        {error && <div className="text-center text-red-500 mb-2">{error}</div>}
           <h2 className="text-xl font-semibold mb-4 text-primary dark:text-primary">{t('reservations')}</h2>
           <table className="min-w-full table-auto text-sm">
             <thead>
