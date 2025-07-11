@@ -124,6 +124,7 @@ function App() {
               <option value="fr">Français</option>
               <option value="de">Deutsch</option>
               <option value="es">Español</option>
+              <option value="zh">中文</option>
             </select>
           </div>
         </div>
