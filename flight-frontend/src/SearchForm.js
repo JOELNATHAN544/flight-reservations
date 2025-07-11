@@ -28,7 +28,7 @@ function SearchForm({ onSearch, onClear }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg border border-gray-200 dark:border-gray-700 space-y-4">
+    <form onSubmit={handleSubmit} className="bg-gradient-to-br from-white via-gray-50 to-gray-200 dark:from-gray-800 dark:via-gray-900 dark:to-gray-700 rounded-lg p-6 shadow-lg border border-gray-200 dark:border-gray-700 space-y-4">
       <input
         type="text"
         name="departure"
@@ -73,7 +73,7 @@ function SearchForm({ onSearch, onClear }) {
         className="w-full p-2 rounded bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary"
       />
       <div className="flex gap-4">
-        <button type="submit" className="flex-1 py-2 px-4 bg-orange-500 text-white rounded hover:bg-orange-600 transition">{t('search')}</button>
+        <button type="submit" className="flex-1 py-2 px-4 bg-gradient-to-r from-orange-500 to-yellow-400 text-white rounded hover:from-orange-600 hover:to-yellow-500 transition font-semibold shadow-md">{t('search')}</button>
         <button type="button" onClick={handleClear} className="flex-1 py-2 px-4 bg-gray-300 dark:bg-gray-600 text-gray-900 dark:text-white rounded hover:bg-gray-400 dark:hover:bg-gray-700 transition">{t('clearSearch')}</button>
       </div>
     </form>
