@@ -201,7 +201,7 @@ function App() {
       </div>
     </div>
       <ToastContainer
-        position="bottom-left"
+        position="top-right"
         autoClose={4000}
         theme={darkMode ? 'dark' : 'light'}
         transition={Slide}
