@@ -9,6 +9,7 @@ import {
   updateTicket,
   deleteTicket as apiDeleteTicket
 } from './api';
+import i18n from './i18n';
 
 function App() {
   const { t } = useTranslation();
@@ -105,13 +106,25 @@ function App() {
       <div className="container mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-center text-primary flex-1">{t('welcome')}</h1>
-          <button
-            aria-label="Toggle dark/light mode"
-            className="ml-4 p-2 rounded-full border border-gray-300 bg-white text-gray-900 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary transition"
-            onClick={() => setDarkMode(dm => !dm)}
-          >
-            <span className="text-xl">{darkMode ? '🌙' : '☀️'}</span>
-          </button>
+          <div className="flex items-center">
+            <button
+              aria-label="Toggle dark/light mode"
+              className="ml-4 p-2 rounded-full border border-gray-300 bg-white text-gray-900 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary transition"
+              onClick={() => setDarkMode(dm => !dm)}
+            >
+              <span className="text-xl">{darkMode ? '🌙' : '☀️'}</span>
+            </button>
+            <select
+              className="ml-4 p-2 rounded border border-gray-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+              onChange={e => i18n.changeLanguage(e.target.value)}
+              value={i18n.language}
+              aria-label="Select language"
+            >
+              <option value="en">English</option>
+              <option value="fr">Français</option>
+              <option value="de">Deutsch</option>
+            </select>
+          </div>
         </div>
         <div className="flex flex-col md:flex-row gap-8">
           <div className="md:w-1/2">
