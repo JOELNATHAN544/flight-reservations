@@ -10,7 +10,7 @@ import {
   deleteTicket as apiDeleteTicket
 } from './api';
 import i18n from './i18n';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
@@ -54,15 +54,15 @@ function App() {
     if (editing !== null) {
         await updateTicket(editing, form);
       setEditing(null);
-        toast.success(t('reservationUpdated'));
+        toast.success(<span>{toastIcons.success}{t('reservationUpdated')}</span>);
     } else {
         await createTicket(form);
-        toast.success(t('reservationCreated'));
+        toast.success(<span>{toastIcons.success}{t('reservationCreated')}</span>);
       }
       await loadTickets();
     } catch (e) {
       setError(e.message);
-      toast.error(t('reservationSaveError', { error: e.message }));
+      toast.error(<span>{toastIcons.error}{t('reservationSaveError', { error: e.message })}</span>);
     } finally {
       setLoading(false);
     }
@@ -92,11 +92,11 @@ function App() {
     setLoading(true); setError(null);
     try {
       await apiDeleteTicket(id);
-      toast.success(t('reservationDeleted'));
+      toast.success(<span>{toastIcons.success}{t('reservationDeleted')}</span>);
       await loadTickets();
     } catch (e) {
       setError(e.message);
-      toast.error(t('reservationDeleteError', { error: e.message }));
+      toast.error(<span>{toastIcons.error}{t('reservationDeleteError', { error: e.message })}</span>);
     } finally {
       setLoading(false);
     }
@@ -107,6 +107,13 @@ function App() {
   };
 
   const editingReservation = reservations.find(r => r.id === editing);
+
+  const toastIcons = {
+    success: <span style={{fontSize: '1.5rem', marginRight: 8}}>✔️</span>,
+    error: <span style={{fontSize: '1.5rem', marginRight: 8}}>❌</span>,
+    info: <span style={{fontSize: '1.5rem', marginRight: 8}}>ℹ️</span>,
+    warning: <span style={{fontSize: '1.5rem', marginRight: 8}}>⚠️</span>,
+  };
 
   return (
     <>
@@ -193,7 +200,12 @@ function App() {
         </div>
       </div>
     </div>
-      <ToastContainer position="top-right" autoClose={3000} theme={darkMode ? 'dark' : 'light'} />
+      <ToastContainer
+        position="bottom-left"
+        autoClose={4000}
+        theme={darkMode ? 'dark' : 'light'}
+        transition={Slide}
+      />
     </>
   );
 }
