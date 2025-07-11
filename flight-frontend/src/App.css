@@ -36,3 +36,33 @@
     transform: rotate(360deg);
   }
 }
+
+/* Custom Toastify styles */
+.Toastify__toast {
+  border-radius: 12px !important;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+  padding-left: 2.5rem !important;
+  min-height: 3.5rem;
+}
+.Toastify__toast--success {
+  background: linear-gradient(90deg, #38b2ac 0%, #4299e1 100%) !important;
+  color: #fff !important;
+}
+.Toastify__toast--error {
+  background: linear-gradient(90deg, #f56565 0%, #ed8936 100%) !important;
+  color: #fff !important;
+}
+.Toastify__toast--info {
+  background: #2d3748 !important;
+  color: #fff !important;
+}
+.Toastify__toast--warning {
+  background: #ecc94b !important;
+  color: #222 !important;
+}
+.Toastify__toast-icon {
+  left: 1rem !important;
+  top: 1.1rem !important;
+}
