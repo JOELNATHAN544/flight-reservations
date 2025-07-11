@@ -51,18 +51,18 @@ function App() {
   const handleCreate = async (form) => {
     setLoading(true); setError(null);
     try {
-      if (editing !== null) {
+    if (editing !== null) {
         await updateTicket(editing, form);
-        setEditing(null);
-        toast.success('Reservation updated successfully!');
-      } else {
+      setEditing(null);
+        toast.success(t('reservationUpdated'));
+    } else {
         await createTicket(form);
-        toast.success('Reservation created successfully!');
+        toast.success(t('reservationCreated'));
       }
       await loadTickets();
     } catch (e) {
       setError(e.message);
-      toast.error('Failed to save reservation: ' + e.message);
+      toast.error(t('reservationSaveError', { error: e.message }));
     } finally {
       setLoading(false);
     }
@@ -92,11 +92,11 @@ function App() {
     setLoading(true); setError(null);
     try {
       await apiDeleteTicket(id);
-      toast.success('Reservation deleted successfully!');
+      toast.success(t('reservationDeleted'));
       await loadTickets();
     } catch (e) {
       setError(e.message);
-      toast.error('Failed to delete reservation: ' + e.message);
+      toast.error(t('reservationDeleteError', { error: e.message }));
     } finally {
       setLoading(false);
     }
@@ -111,17 +111,17 @@ function App() {
   return (
     <>
       <div className={"min-h-screen bg-gradient-to-br from-white via-gray-100 to-gray-300 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700 " + (darkMode ? "text-gray-100" : "text-gray-900") }>
-        <div className="container mx-auto px-4 py-8">
-          <div className="flex justify-between items-center mb-8">
-            <h1 className="text-3xl font-bold text-center text-primary flex-1">{t('welcome')}</h1>
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-3xl font-bold text-center text-primary flex-1">{t('welcome')}</h1>
             <div className="flex items-center">
-              <button
-                aria-label="Toggle dark/light mode"
-                className="ml-4 p-2 rounded-full border border-gray-300 bg-white text-gray-900 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary transition"
-                onClick={() => setDarkMode(dm => !dm)}
-              >
-                <span className="text-xl">{darkMode ? '🌙' : '☀️'}</span>
-              </button>
+          <button
+            aria-label="Toggle dark/light mode"
+            className="ml-4 p-2 rounded-full border border-gray-300 bg-white text-gray-900 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary transition"
+            onClick={() => setDarkMode(dm => !dm)}
+          >
+            <span className="text-xl">{darkMode ? '🌙' : '☀️'}</span>
+          </button>
               <select
                 className="ml-4 p-2 rounded border border-gray-300 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                 onChange={e => i18n.changeLanguage(e.target.value)}
@@ -136,63 +136,63 @@ function App() {
                 <option value="he">עברית</option>
               </select>
             </div>
+        </div>
+        <div className="flex flex-col md:flex-row gap-8">
+          <div className="md:w-1/2">
+            <ReservationForm onSubmit={handleCreate} initialData={editingReservation} />
           </div>
-          <div className="flex flex-col md:flex-row gap-8">
-            <div className="md:w-1/2">
-              <ReservationForm onSubmit={handleCreate} initialData={editingReservation} />
-            </div>
-            <div className="md:w-1/2">
-              <SearchForm onSearch={handleSearch} onClear={handleClear} />
-            </div>
+          <div className="md:w-1/2">
+            <SearchForm onSearch={handleSearch} onClear={handleClear} />
           </div>
+        </div>
           <div className="mt-10 bg-gradient-to-br from-white via-gray-50 to-gray-200 dark:from-gray-800 dark:via-gray-900 dark:to-gray-700 rounded-lg p-6 shadow-lg overflow-x-auto border border-gray-200 dark:border-gray-700">
           {loading && <div className="text-center text-blue-500 mb-2">{t('loading') || 'Loading...'}</div>}
           {error && <div className="text-center text-red-500 mb-2">{error}</div>}
-            <h2 className="text-xl font-semibold mb-4 text-primary dark:text-primary">{t('reservations')}</h2>
-            <table className="min-w-full table-auto text-sm">
-              <thead>
-                <tr className="bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100">
-                  <th className="px-2 py-2">#</th>
-                  <th className="px-2 py-2">{t('companyName')}</th>
-                  <th className="px-2 py-2">{t('passengerName')}</th>
-                  <th className="px-2 py-2">{t('flightNumber')}</th>
-                  <th className="px-2 py-2">{t('departureAddress')}</th>
-                  <th className="px-2 py-2">{t('destinationAddress')}</th>
-                  <th className="px-2 py-2">{t('kickoffTime')}</th>
-                  <th className="px-2 py-2">{t('price')}</th>
-                  <th className="px-2 py-2">{t('status')}</th>
-                  <th className="px-2 py-2">{t('actions')}</th>
+          <h2 className="text-xl font-semibold mb-4 text-primary dark:text-primary">{t('reservations')}</h2>
+          <table className="min-w-full table-auto text-sm">
+            <thead>
+              <tr className="bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                <th className="px-2 py-2">#</th>
+                <th className="px-2 py-2">{t('companyName')}</th>
+                <th className="px-2 py-2">{t('passengerName')}</th>
+                <th className="px-2 py-2">{t('flightNumber')}</th>
+                <th className="px-2 py-2">{t('departureAddress')}</th>
+                <th className="px-2 py-2">{t('destinationAddress')}</th>
+                <th className="px-2 py-2">{t('kickoffTime')}</th>
+                <th className="px-2 py-2">{t('price')}</th>
+                <th className="px-2 py-2">{t('status')}</th>
+                <th className="px-2 py-2">{t('actions')}</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white dark:bg-gray-900">
+              {reservations.length === 0 ? (
+                <tr>
+                  <td colSpan="10" className="text-center text-gray-400 py-4">{t('noReservations')}</td>
                 </tr>
-              </thead>
-              <tbody className="bg-white dark:bg-gray-900">
-                {reservations.length === 0 ? (
-                  <tr>
-                    <td colSpan="10" className="text-center text-gray-400 py-4">{t('noReservations')}</td>
+              ) : (
+                reservations.map((r, i) => (
+                  <tr key={r.id}>
+                    <td className="px-2 py-1">{i + 1}</td>
+                    <td className="px-2 py-1">{r.companyName}</td>
+                    <td className="px-2 py-1">{r.passengerName}</td>
+                    <td className="px-2 py-1">{r.flightNumber}</td>
+                    <td className="px-2 py-1">{r.departureAddress}</td>
+                    <td className="px-2 py-1">{r.destinationAddress}</td>
+                    <td className="px-2 py-1">{r.kickoffTime}</td>
+                    <td className="px-2 py-1">{r.price}</td>
+                    <td className="px-2 py-1">{r.status}</td>
+                    <td className="px-2 py-1">
+                      <button className="bg-accent text-white px-2 py-1 rounded mr-2 hover:bg-orange-600 transition" onClick={() => handleEdit(r.id)}>{t('edit')}</button>
+                      <button className="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700 transition" onClick={() => handleDelete(r.id)}>{t('delete')}</button>
+                    </td>
                   </tr>
-                ) : (
-                  reservations.map((r, i) => (
-                    <tr key={r.id}>
-                      <td className="px-2 py-1">{i + 1}</td>
-                      <td className="px-2 py-1">{r.companyName}</td>
-                      <td className="px-2 py-1">{r.passengerName}</td>
-                      <td className="px-2 py-1">{r.flightNumber}</td>
-                      <td className="px-2 py-1">{r.departureAddress}</td>
-                      <td className="px-2 py-1">{r.destinationAddress}</td>
-                      <td className="px-2 py-1">{r.kickoffTime}</td>
-                      <td className="px-2 py-1">{r.price}</td>
-                      <td className="px-2 py-1">{r.status}</td>
-                      <td className="px-2 py-1">
-                        <button className="bg-accent text-white px-2 py-1 rounded mr-2 hover:bg-orange-600 transition" onClick={() => handleEdit(r.id)}>{t('edit')}</button>
-                        <button className="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700 transition" onClick={() => handleDelete(r.id)}>{t('delete')}</button>
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
+                ))
+              )}
+            </tbody>
+          </table>
         </div>
       </div>
+    </div>
       <ToastContainer position="top-right" autoClose={3000} />
     </>
   );
