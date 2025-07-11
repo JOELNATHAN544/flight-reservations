@@ -58,7 +58,7 @@ function App() {
   const editingReservation = reservations.find(r => r.id === editing);
 
   return (
-    <div className={"min-h-screen " + (darkMode ? "bg-secondary text-gray-100" : "bg-white text-gray-900") }>
+    <div className={"min-h-screen bg-gradient-to-br from-white via-gray-100 to-gray-300 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700 " + (darkMode ? "text-gray-100" : "text-gray-900") }>
       <div className="container mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-center text-primary flex-1">{t('welcome')}</h1>
@@ -78,7 +78,7 @@ function App() {
             <SearchForm onSearch={handleSearch} onClear={handleClear} />
           </div>
         </div>
-        <div className="mt-10 bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg overflow-x-auto border border-gray-200 dark:border-gray-700">
+        <div className="mt-10 bg-gradient-to-br from-white via-gray-50 to-gray-200 dark:from-gray-800 dark:via-gray-900 dark:to-gray-700 rounded-lg p-6 shadow-lg overflow-x-auto border border-gray-200 dark:border-gray-700">
           <h2 className="text-xl font-semibold mb-4 text-primary dark:text-primary">{t('reservations')}</h2>
           <table className="min-w-full table-auto text-sm">
             <thead>
