@@ -12,22 +12,37 @@ const initialState = {
   status: 'CONFIRMED',
 };
 
-function ReservationForm({ onSubmit }) {
+function ReservationForm({ onSubmit, initialData }) {
   const { t } = useTranslation();
-  const [form, setForm] = useState(initialState);
+  const [form, setForm] = useState(initialData ? { ...initialState, ...initialData, kickoffTime: initialData.kickoffTime ? initialData.kickoffTime.slice(0, 16) : '' } : initialState);
+
+  React.useEffect(() => {
+    if (initialData) {
+      setForm({ ...initialState, ...initialData, kickoffTime: initialData.kickoffTime ? initialData.kickoffTime.slice(0, 16) : '' });
+    } else {
+      setForm(initialState);
+    }
+    // eslint-disable-next-line
+  }, [initialData]);
 
   const handleChange = e => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    onSubmit(form);
+    // Prepare data for backend
+    const payload = {
+      ...form,
+      price: form.price ? parseFloat(form.price) : 0,
+      kickoffTime: form.kickoffTime ? new Date(form.kickoffTime).toISOString() : null,
+    };
+    await onSubmit(payload);
     setForm(initialState);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg border border-gray-200 dark:border-gray-700 space-y-4">
+    <form onSubmit={handleSubmit} className="bg-gradient-to-br from-white via-gray-50 to-gray-200 dark:from-gray-800 dark:via-gray-900 dark:to-gray-700 rounded-lg p-6 shadow-lg border border-gray-200 dark:border-gray-700 space-y-4">
       <div className="flex gap-4">
         <input type="text" name="companyName" value={form.companyName} onChange={handleChange} placeholder={t('companyName')} required className="w-1/2 p-2 rounded bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary" />
         <input type="text" name="passengerName" value={form.passengerName} onChange={handleChange} placeholder={t('passengerName')} required className="w-1/2 p-2 rounded bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary" />
@@ -48,7 +63,7 @@ function ReservationForm({ onSubmit }) {
           <option value="CANCELLED">{t('cancelled')}</option>
         </select>
       </div>
-      <button type="submit" className="w-full py-2 px-4 bg-blue-600 text-white rounded hover:bg-blue-700 transition">{t('create')}</button>
+      <button type="submit" className="w-full py-2 px-4 bg-gradient-to-r from-blue-600 to-cyan-400 text-white rounded hover:from-blue-700 hover:to-cyan-500 transition font-semibold shadow-md">{t('create')}</button>
     </form>
   );
 }
