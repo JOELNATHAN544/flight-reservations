@@ -160,7 +160,7 @@ function App() {
 
   return (
     <>
-      <div className={"min-h-screen bg-gradient-to-br from-white via-gray-100 to-gray-300 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700 " + (darkMode ? "text-gray-100" : "text-gray-900") }>
+      <div className={"min-h-screen bg-gradient-to-br from-white via-blue-50 via-gray-100 to-gray-300 dark:from-gray-900 dark:via-blue-900 dark:via-gray-800 dark:to-gray-700 " + (darkMode ? "text-gray-100" : "text-gray-900") }>
       <div className="container mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-center text-primary flex-1">{t('welcome')}</h1>
