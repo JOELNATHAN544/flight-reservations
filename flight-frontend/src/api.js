@@ -1,5 +1,5 @@
 // API utility for flight ticket backend integration
-const API_BASE = process.env.REACT_APP_API_BASE || 'http://localhost:8084';
+const API_BASE = process.env.REACT_APP_API_BASE || 'http://localhost:8080';
 
 export async function fetchTickets() {
   const res = await fetch(`${API_BASE}/tickets`);
