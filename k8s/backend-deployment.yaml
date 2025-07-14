@@ -13,11 +13,18 @@ spec:
         app: flight-backend
     spec:
       containers:
-        - name: backend
+        - name: flight-backend
           image: flight-backend:latest
           imagePullPolicy: Never
           ports:
             - containerPort: 8080
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://postgres:5432/flightdb
+            - name: SPRING_DATASOURCE_USERNAME
+              value: flightuser
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: flightpass
 ---
 apiVersion: v1
 kind: Service
@@ -29,4 +36,5 @@ spec:
   ports:
     - protocol: TCP
       port: 8080
-      targetPort: 8080 
+      targetPort: 8080
+  type: NodePort 
