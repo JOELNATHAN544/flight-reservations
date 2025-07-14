@@ -23,11 +23,14 @@ dependencies {
     testCompileOnly 'org.projectlombok:lombok:1.18.32'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.32'
 
-    // H2 Database (for development)
-    runtimeOnly 'com.h2database:h2'
+    // PostgreSQL JDBC driver
+    implementation 'org.postgresql:postgresql:42.7.3'
 
     // Swagger/OpenAPI
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
+
+    // H2 Database (for development, optional)
+    runtimeOnly 'com.h2database:h2'
 
     // Testing
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
