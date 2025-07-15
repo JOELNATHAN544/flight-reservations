@@ -11,13 +11,13 @@ A fullstack, multilingual flight reservation management system with a modern Rea
 - **Toast notifications** for all actions, styled to match the app
 - **Internationalization (i18n):** English, French, German, Spanish, Chinese, Hebrew (with language switcher)
 - **API integration** between frontend and backend
-- **Kubernetes-ready** deployment with Docker images
+- **Kubernetes-ready** deployment with Docker images and internal service proxying
 
 ---
 
 ## Project Structure
 ```
-demo_new/
+flight-reservations/
 ├── flight-frontend/         # React frontend (see its README for details)
 │   ├── src/
 │   ├── public/
@@ -57,7 +57,10 @@ demo_new/
 ## Frontend (React)
 - See [`flight-frontend/README.md`](./flight-frontend/README.md) for full details
 - Modern UI with Tailwind CSS, react-toastify, and i18n
-- Connects to backend at `http://localhost:8080/tickets` by default
+- **Kubernetes deployment uses an internal Nginx proxy:**
+  - All API calls use a relative path (`/api`).
+  - Nginx proxies `/api` requests to the backend service (`flight-backend:8080`) inside the cluster.
+  - See `flight-frontend/nginx.conf` for proxy config.
 
 ---
 
@@ -80,8 +83,34 @@ Runs at [http://localhost:3000](http://localhost:3000)
 ---
 
 ## Kubernetes & Docker Deployment
-- See the original instructions below for building Docker images, importing into k3s, and deploying with Kubernetes YAMLs in `k8s/`.
-- Port-forward or use NodePort to access services from your host.
+
+### 1. Build Docker Images
+```bash
+# In flight-frontend directory
+# Make sure src/api.js uses API_BASE = '/api';
+# Make sure nginx.conf is present as described in the docs
+
+docker build -t flight-frontend:latest .
+docker save flight-frontend:latest -o flight-frontend.tar
+sudo ctr -n k8s.io images import flight-frontend.tar
+
+# For backend, build and import similarly if needed
+```
+
+### 2. Deploy to k3s
+```bash
+kubectl apply -f k8s/postgres-deployment.yaml
+kubectl apply -f k8s/backend-deployment.yaml
+kubectl apply -f k8s/frontend-deployment.yaml
+```
+
+### 3. Accessing the App
+- Use NodePort: `http://<VM-IP>:<NodePort>`
+- Or use `kubectl port-forward` for local access:
+  ```bash
+  kubectl port-forward service/flight-frontend 8080:80
+  # Then open http://localhost:8080 on the same machine where you run the command
+  ```
 
 ---
 
@@ -89,6 +118,19 @@ Runs at [http://localhost:3000](http://localhost:3000)
 - Fully supports English, French, German, Spanish, Chinese, and Hebrew.
 - All UI and notifications are translated.
 - Easily extensible for more languages in `flight-frontend/src/i18n.js`.
+
+---
+
+## Archiving and Copying the Project
+
+To archive the entire project directory (from the VM):
+```bash
+cd /path/to/parent/of/flight-reservations
+# Create a compressed archive
+ tar czvf flight-reservations.tar.gz flight-reservations/
+# Copy the archive to your local machine using scp:
+scp user@vm-ip:/path/to/flight-reservations.tar.gz /local/path/
+```
 
 ---
 
